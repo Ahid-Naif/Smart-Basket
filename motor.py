@@ -37,7 +37,7 @@ print("\n")
 
 while(1):
 
-    x=raw_input()
+    x=input()
     
     if x=='r':
         print("run")
