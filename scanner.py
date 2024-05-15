@@ -1,7 +1,7 @@
 import serial
 
 # Open serial port
-ser = serial.Serial('/dev/ttyUSB0', 9600)  # Change '/dev/ttyUSB0' to your serial port
+ser = serial.Serial('/dev/ttyS0', 9600)  # Change '/dev/ttyUSB0' to your serial port
 
 # Send command to request data
 ser.write(b'READ_DATA\n')
