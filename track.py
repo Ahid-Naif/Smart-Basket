@@ -68,11 +68,9 @@ class Object_Tracking_Robot:
             vx = self.Ox - self.cx
             vy = self.cy - self.Oy + (self.Tw - self.Ow)
             # mapping
-            rightMotorSpeed = vy - vx
-            leftMotorSpeed = vy + vx
+            self.rightMotorSpeed = vy - vx
+            self.leftMotorSpeed = vy + vx
             self.MOVE_ROBOT()
-            print("rightMotorSpeed: {}".format(rightMotorSpeed))
-            print("leftMotorSpeed: {}".format(leftMotorSpeed))
         else:
             print("Nothing was detected.")
 
