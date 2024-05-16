@@ -59,20 +59,6 @@ class Object_Tracking_Robot:
             print("leftMotor - forward, Speed: {}".format(self.leftMotorSpeed))
         else:
             print("leftMotor - backward , Speed: {}".format(self.leftMotorSpeed))
-    
-    def OBJECT_TRACKING(self):
-        # Get the recently read block from the HuskyLens
-        blocks_data = self.husky_lens.blocks()
-        if blocks_data:  # Check if blocks_data is not empty
-            self.decodeHuskyLens(self.husky_lens.blocks())
-            vx = self.Ox - self.cx
-            vy = self.cy - self.Oy + (self.Tw - self.Ow)
-            # mapping
-            self.rightMotorSpeed = vy - vx
-            self.leftMotorSpeed = vy + vx
-            self.MOVE_ROBOT()
-        else:
-            print("Nothing was detected.")
 
 # Define a new class object named 'robot':
 robot = Object_Tracking_Robot()
