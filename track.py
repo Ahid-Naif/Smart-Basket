@@ -16,9 +16,9 @@ class Object_Tracking_Robot:
         
         self.Tw = 130 # target width - this dimension determines how close to the camera the object should be 
         self.Ow = 0 # Object width
-        self.Oh # Object height
-        self.Ox # Object x center
-        self.Oy # Object y center
+        self.Oh = 0 # Object height
+        self.Ox = 0 # Object x center
+        self.Oy = 0 # Object y center
 
         self.rightMotorSpeed
         self.leftMotorSpeed
