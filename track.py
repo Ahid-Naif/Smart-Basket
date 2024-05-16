@@ -17,7 +17,6 @@ import datetime
 import string
 import random
 from subprocess import call
-import requests
 from escpos import *
 
 # Create the Mask Detection Robot class with the required settings:
@@ -64,17 +63,6 @@ class Mask_Detection_Robot:
         print("\nStatus => Motion Module Restarted!\n")
         call([command_start_motion], shell=True)
         sleep(5)
-    
-    # Send the recently captured pictures of people without a mask to the server.
-    def send_captured_img_to_server(self, case_code, file_path):
-        url_path = "http://" + self.server + "/Mask_Detection_Robot_Dashboard/captured/"
-        captured_image_path = file_path + case_code + ".jpg"
-        files = {'captured_image': open(captured_image_path, 'rb')}
-        # Make an HTTP Post Request to the server to send the captured image.
-        request = requests.post(url_path, files=files)
-        print("\nStatus => Recently Captured Image Transferred!")
-        # Print the response from the server.
-        print("\nServer: " + request.text + "\n")
         
     # Via the Thermal Printer, print the fine receipt when detecting people without a mask.
     def print_fine_receipt(self, case_code, fine, due):
@@ -136,8 +124,6 @@ class Mask_Detection_Robot:
             self.generate_unique_case_code(15)
             # Capture people without a mask.
             self.capture_unmasked("640", "480", self.case_code, self.file_location)
-            # Send the captured image to the server.
-            self.send_captured_img_to_server(self.case_code, self.file_location)
             # Print the fine receipt with the penalty.
             self.print_fine_receipt(self.case_code, "$50", "3")
         elif(self.husky_lens_ID == 3):
