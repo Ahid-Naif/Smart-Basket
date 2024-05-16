@@ -70,7 +70,7 @@ class Object_Tracking_Robot:
             # mapping
             rightMotorSpeed = vy - vx
             leftMotorSpeed = vy + vx
-            self.moveRobot(rightMotorSpeed, leftMotorSpeed)
+            self.MOVE_ROBOT(rightMotorSpeed, leftMotorSpeed)
             print("rightMotorSpeed: {}".format(rightMotorSpeed))
             print("leftMotorSpeed: {}".format(leftMotorSpeed))
         else:
