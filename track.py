@@ -82,3 +82,4 @@ robot = Object_Tracking_Robot()
 while True:
     # Get blocks from the HuskyLens:
     robot.OBJECT_TRACKING()
+    sleep(1)
