@@ -8,9 +8,6 @@ class Object_Tracking_Robot:
     def __init__(self):
         # Define HusklyLens settings
         self.husky_lens = HuskyLensLibrary("I2C", "", address=0x32)
-        self.husky_lens_ID = 0
-        self.width = 320 # screen width
-        self.height = 240 # screen height
         self.cx = 160 # screen x venter
         self.cy = 120 # screen y center
         
@@ -31,16 +28,19 @@ class Object_Tracking_Robot:
         count=1
         if(type(obj)==list):
             for i in obj:
-                print("\t " + ("BLOCK_" if i.type=="BLOCK" else "ARROW_") + str(count) + " : " + json.dumps(i.__dict__))
-                self.husky_lens_ID = json.loads(json.dumps(i.__dict__))["ID"]
+                # print("\t " + ("BLOCK_" if i.type=="BLOCK" else "ARROW_") + str(count) + " : " + json.dumps(i.__dict__))
+                self.Ox = json.loads(json.dumps(i.__dict__))["x"]
+                self.Oy = json.loads(json.dumps(i.__dict__))["y"]
+                self.Ow = json.loads(json.dumps(i.__dict__))["width"]
                 count+=1
         else:
-            print("\t " + ("BLOCK_" if obj.type=="BLOCK" else "ARROW_") + str(count) + " : " + json.dumps(obj.__dict__))
-            self.husky_lens_ID = json.loads(json.dumps(obj.__dict__))["ID"]
+            # print("\t " + ("BLOCK_" if obj.type=="BLOCK" else "ARROW_") + str(count) + " : " + json.dumps(obj.__dict__))
+            self.Ox = json.loads(json.dumps(i.__dict__))["x"]
+            self.Oy = json.loads(json.dumps(i.__dict__))["y"]
+            self.Ow = json.loads(json.dumps(i.__dict__))["width"]
             
     def OBJECT_TRACKING(self):
         # Get the recently read block from the HuskyLens
-        blocks_data = self.husky_lens.blocks()
         self.decodeHuskyLens(self.husky_lens.blocks())
         vx = self.Ox - self.cx
         vy = self.cy - self.Oy + (self.Tw - self.Ow)
