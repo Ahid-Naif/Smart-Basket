@@ -20,8 +20,8 @@ class Object_Tracking_Robot:
         self.Ox = 0 # Object x center
         self.Oy = 0 # Object y center
 
-        self.rightMotorSpeed
-        self.leftMotorSpeed
+        self.rightMotorSpeed = 0
+        self.leftMotorSpeed = 0
 
         # Test the communication with the HuskyLens.
         print("First request testing: {}".format(self.husky_lens.knock()))
