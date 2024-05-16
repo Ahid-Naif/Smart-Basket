@@ -35,9 +35,9 @@ class Object_Tracking_Robot:
                 count+=1
         else:
             # print("\t " + ("BLOCK_" if obj.type=="BLOCK" else "ARROW_") + str(count) + " : " + json.dumps(obj.__dict__))
-            self.Ox = json.loads(json.dumps(i.__dict__))["x"]
-            self.Oy = json.loads(json.dumps(i.__dict__))["y"]
-            self.Ow = json.loads(json.dumps(i.__dict__))["width"]
+            self.Ox = json.loads(json.dumps(obj.__dict__))["x"]
+            self.Oy = json.loads(json.dumps(obj.__dict__))["y"]
+            self.Ow = json.loads(json.dumps(obj.__dict__))["width"]
             
     def OBJECT_TRACKING(self):
         # Get the recently read block from the HuskyLens
