@@ -51,7 +51,7 @@ p.start(25)
 p2.start(25)
 
 # Function to map a value from one range to another
-def map_value(self, value, from_low, from_high, to_low, to_high):
+def map_value(value, from_low, from_high, to_low, to_high):
     return (value - from_low) * (to_high - to_low) / (from_high - from_low) + to_low
 
 # Create the Mask Detection Robot class with the required settings:
