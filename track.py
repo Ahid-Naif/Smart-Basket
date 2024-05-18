@@ -103,11 +103,11 @@ class Object_Tracking_Robot:
         self.rightMotorSpeed = vy - vx
         self.leftMotorSpeed = vy + vx
 
-        if(abs(self.rightMotorSpeed) < minSpeed):
-            self.rightMotorSpeed = 0
+        # if(abs(self.rightMotorSpeed) < minSpeed):
+        #     self.rightMotorSpeed = 0
         
-        if(abs(self.leftMotorSpeed) < minSpeed):
-            self.leftMotorSpeed = 0
+        # if(abs(self.leftMotorSpeed) < minSpeed):
+        #     self.leftMotorSpeed = 0
 
         self.MOVE_ROBOT()
 
