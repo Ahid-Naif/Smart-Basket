@@ -3,6 +3,23 @@ import json
 from time import sleep
 from escpos import *
 import RPi.GPIO as GPIO          
+import sys
+
+minSpeed = 0
+maxSpeed = 0
+
+# Check if the required number of command-line arguments are provided
+if len(sys.argv) != 3:
+    print("Usage: python script.py <minSpeed> <maxSpeed>")
+    sys.exit(1)
+
+# Get the values of minSpeed and maxSpeed from command-line arguments
+try:
+    minSpeed = float(sys.argv[1])
+    maxSpeed = float(sys.argv[2])
+except ValueError:
+    print("Error: minSpeed and maxSpeed must be numeric values.")
+    sys.exit(1)
 
 in1 = 24
 in2 = 23
@@ -32,6 +49,10 @@ p2=GPIO.PWM(en2, 1000)
 
 p.start(25)
 p2.start(25)
+
+# Function to map a value from one range to another
+def map_value(self, value, from_low, from_high, to_low, to_high):
+    return (value - from_low) * (to_high - to_low) / (from_high - from_low) + to_low
 
 # Create the Mask Detection Robot class with the required settings:
 class Object_Tracking_Robot:
@@ -74,9 +95,20 @@ class Object_Tracking_Robot:
         self.decodeHuskyLens(self.husky_lens.blocks())
         vx = self.Ox - self.cx
         vy = self.cy - self.Oy + (self.Tw - self.Ow)
+        
         # mapping
+        vx = map_value(vx, 0, 160, minSpeed, maxSpeed) / 2
+        vy = map_value(vy, 0, 120, minSpeed, maxSpeed) / 2
+
         self.rightMotorSpeed = vy - vx
         self.leftMotorSpeed = vy + vx
+
+        if(abs(self.rightMotorSpeed) < minSpeed):
+            self.rightMotorSpeed = 0
+        
+        if(abs(self.leftMotorSpeed) < minSpeed):
+            self.leftMotorSpeed = 0
+
         self.MOVE_ROBOT()
 
     def MOVE_ROBOT(self):
