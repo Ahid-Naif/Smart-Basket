@@ -30,6 +30,9 @@ GPIO.output(in3,GPIO.LOW)
 GPIO.output(in4,GPIO.LOW)
 p2=GPIO.PWM(en2, 1000)
 
+p.start(25)
+p2.start(25)
+
 # Create the Mask Detection Robot class with the required settings:
 class Object_Tracking_Robot:
     def __init__(self):
