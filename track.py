@@ -114,23 +114,23 @@ class Object_Tracking_Robot:
     def MOVE_ROBOT(self):
         if self.rightMotorSpeed > 0:
             print("rightMotor - forward, Speed: {}".format(self.rightMotorSpeed))
-            p.ChangeDutyCycle(self.rightMotorSpeed)
+            p.ChangeDutyCycle(abs(self.rightMotorSpeed))
             GPIO.output(in1,GPIO.HIGH)
             GPIO.output(in2,GPIO.LOW)
         else:
             print("rightMotor - backward , Speed: {}".format(self.rightMotorSpeed))
-            p.ChangeDutyCycle(self.rightMotorSpeed)
+            p.ChangeDutyCycle(abs(self.rightMotorSpeed))
             GPIO.output(in1,GPIO.LOW)
             GPIO.output(in2,GPIO.HIGH)
         
         if self.leftMotorSpeed > 0:
             print("leftMotor - forward, Speed: {}".format(self.leftMotorSpeed))
-            p2.ChangeDutyCycle(self.leftMotorSpeed)
+            p2.ChangeDutyCycle(abs(self.leftMotorSpeed))
             GPIO.output(in3,GPIO.HIGH)
             GPIO.output(in4,GPIO.LOW)
         else:
             print("leftMotor - backward , Speed: {}".format(self.leftMotorSpeed))
-            p2.ChangeDutyCycle(self.leftMotorSpeed)
+            p2.ChangeDutyCycle(abs(self.leftMotorSpeed))
             GPIO.output(in3,GPIO.LOW)
             GPIO.output(in4,GPIO.HIGH)
 
