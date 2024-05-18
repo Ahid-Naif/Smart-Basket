@@ -47,8 +47,8 @@ GPIO.output(in3,GPIO.LOW)
 GPIO.output(in4,GPIO.LOW)
 p2=GPIO.PWM(en2, 1000)
 
-p.start(25)
-p2.start(25)
+p.start(minSpeed)
+p2.start(minSpeed)
 
 # Function to map a value from one range to another
 def map_value(value, from_low, from_high, to_low, to_high):
@@ -114,23 +114,23 @@ class Object_Tracking_Robot:
     def MOVE_ROBOT(self):
         if self.rightMotorSpeed > 0:
             print("rightMotor - forward, Speed: {}".format(self.rightMotorSpeed))
-            p.ChangeDutyCycle(25)
+            p.ChangeDutyCycle(self.rightMotorSpeed)
             GPIO.output(in1,GPIO.HIGH)
             GPIO.output(in2,GPIO.LOW)
         else:
             print("rightMotor - backward , Speed: {}".format(self.rightMotorSpeed))
-            p.ChangeDutyCycle(25)
+            p.ChangeDutyCycle(self.rightMotorSpeed)
             GPIO.output(in1,GPIO.LOW)
             GPIO.output(in2,GPIO.HIGH)
         
         if self.leftMotorSpeed > 0:
             print("leftMotor - forward, Speed: {}".format(self.leftMotorSpeed))
-            p2.ChangeDutyCycle(25)
+            p2.ChangeDutyCycle(self.leftMotorSpeed)
             GPIO.output(in3,GPIO.HIGH)
             GPIO.output(in4,GPIO.LOW)
         else:
             print("leftMotor - backward , Speed: {}".format(self.leftMotorSpeed))
-            p2.ChangeDutyCycle(25)
+            p2.ChangeDutyCycle(self.leftMotorSpeed)
             GPIO.output(in3,GPIO.LOW)
             GPIO.output(in4,GPIO.HIGH)
 
