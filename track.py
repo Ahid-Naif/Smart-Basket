@@ -2,6 +2,33 @@ from huskylib import HuskyLensLibrary
 import json
 from time import sleep
 from escpos import *
+import RPi.GPIO as GPIO          
+
+in1 = 24
+in2 = 23
+en1 = 25
+
+in3 = 14
+in4 = 15
+en2 = 18
+
+GPIO.setmode(GPIO.BCM)
+
+GPIO.setup(in1,GPIO.OUT)
+GPIO.setup(in2,GPIO.OUT)
+GPIO.setup(en1,GPIO.OUT)
+
+GPIO.setup(in3,GPIO.OUT)
+GPIO.setup(in4,GPIO.OUT)
+GPIO.setup(en2,GPIO.OUT)
+
+GPIO.output(in1,GPIO.LOW)
+GPIO.output(in2,GPIO.LOW)
+p=GPIO.PWM(en1,1000)
+
+GPIO.output(in3,GPIO.LOW)
+GPIO.output(in4,GPIO.LOW)
+p2=GPIO.PWM(en2, 1000)
 
 # Create the Mask Detection Robot class with the required settings:
 class Object_Tracking_Robot:
@@ -52,13 +79,25 @@ class Object_Tracking_Robot:
     def MOVE_ROBOT(self):
         if self.rightMotorSpeed > 0:
             print("rightMotor - forward, Speed: {}".format(self.rightMotorSpeed))
+            p.ChangeDutyCycle(25)
+            GPIO.output(in1,GPIO.HIGH)
+            GPIO.output(in2,GPIO.LOW)
         else:
             print("rightMotor - backward , Speed: {}".format(self.rightMotorSpeed))
+            p.ChangeDutyCycle(25)
+            GPIO.output(in1,GPIO.LOW)
+            GPIO.output(in2,GPIO.HIGH)
         
         if self.leftMotorSpeed > 0:
             print("leftMotor - forward, Speed: {}".format(self.leftMotorSpeed))
+            p2.ChangeDutyCycle(25)
+            GPIO.output(in3,GPIO.HIGH)
+            GPIO.output(in4,GPIO.LOW)
         else:
             print("leftMotor - backward , Speed: {}".format(self.leftMotorSpeed))
+            p2.ChangeDutyCycle(25)
+            GPIO.output(in3,GPIO.LOW)
+            GPIO.output(in4,GPIO.HIGH)
 
 # Define a new class object named 'robot':
 robot = Object_Tracking_Robot()
