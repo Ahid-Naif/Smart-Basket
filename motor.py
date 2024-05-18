@@ -85,8 +85,8 @@ while(1):
 
     elif x=='l':
         print("low")
-        p.ChangeDutyCycle(25)
-        p2.ChangeDutyCycle(25)
+        p.ChangeDutyCycle(30)
+        p2.ChangeDutyCycle(30)
         x='z'
 
     elif x=='m':
