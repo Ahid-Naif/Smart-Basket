@@ -208,7 +208,12 @@ class HuskyLensLibrary:
                     return ret
             except Exception as e:
                 if self.checkOnceAgain:
-                    self.huskylensSer.timeout = 5
+                    # Check if the connection is serial
+                    if self.proto == "SERIAL":
+                        self.huskylensSer.timeout = 5  # Set the timeout for serial connection
+                    elif self.proto == "I2C":
+                        # SMBus objects do not have a timeout attribute
+                        pass
                     self.checkOnceAgain = False
                     self.huskylensSer.timeout = 0.5
                     return self.processReturnData()
