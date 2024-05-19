@@ -106,7 +106,10 @@ class Object_Tracking_Robot:
             vyNew = vyNew * (abs(vy)/vy)
 
         if (Tw - self.Ow) > 0:
-            vyNew = vyNew + ( (Tw - self.Ow)/2 )
+            if (Tw - self.Ow) > 20:
+                vyNew = vyNew + ( (Tw - self.Ow)/2 )
+            else:
+                vyNew = vyNew + (Tw - self.Ow)
 
         self.rightMotorSpeed = vyNew - vxNew
         self.leftMotorSpeed = vyNew + vxNew
