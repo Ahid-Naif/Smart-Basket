@@ -155,10 +155,11 @@ class HuskyLensLibrary:
 
     def processReturnData(self, numIdLearnFlag=False, frameFlag=False):
         inProduction = True
-        byteString=""
-        if(inProduction):
+        byteString = ""
+        if inProduction:
             try:
-                if(self.proto == "SERIAL"):
+                # Read data from the HuskyLens
+                if self.proto == "SERIAL":
                     byteString = self.huskylensSer.read(5)
                     byteString += self.huskylensSer.read(int(byteString[3]))
                     byteString += self.huskylensSer.read(1)
@@ -168,61 +169,74 @@ class HuskyLensLibrary:
                         byteString += bytes([(self.huskylensSer.read_byte(self.address))])
                     for i in range(int(byteString[3])+1):
                         byteString += bytes([(self.huskylensSer.read_byte(self.address))])
+                
+                # Split the received data into parts
                 commandSplit = self.splitCommandToParts(byteString.hex())
-                # print(commandSplit)
-                if(commandSplit[3] == "2e"):
-                    self.checkOnceAgain=True
-                    return "Knock Recieved"
+                # Check if the command is a "Knock received" command
+                if commandSplit[3] == "2e":
+                    self.checkOnceAgain = True
+                    return "Knock Received"
                 else:
+                    # Extract data from the command
                     returnData = []
-                    numberOfBlocksOrArrow = int(
-                        commandSplit[4][2:4]+commandSplit[4][0:2], 16)
-                    numberOfIDLearned = int(
-                        commandSplit[4][6:8]+commandSplit[4][4:6], 16)
-                    frameNumber = int(
-                        commandSplit[4][10:12]+commandSplit[4][8:10], 16)
-                    isBlock=True
+                    numberOfBlocksOrArrow = int(commandSplit[4][2:4] + commandSplit[4][0:2], 16)
+                    numberOfIDLearned = int(commandSplit[4][6:8] + commandSplit[4][4:6], 16)
+                    frameNumber = int(commandSplit[4][10:12] + commandSplit[4][8:10], 16)
+                    
+                    # Process blocks or arrows data
                     for i in range(numberOfBlocksOrArrow):
-                        tmpObj=self.getBlockOrArrowCommand()
-                        isBlock=tmpObj[1]
+                        tmpObj = self.getBlockOrArrowCommand()
                         returnData.append(tmpObj[0])
 
-                    
-                    # isBlock = True if commandSplit[3] == "2A"else False
-                    
                     finalData = []
                     tmp = []
-                    # print(returnData)
+
+                    # Convert the raw data into class objects (Block or Arrow)
                     for i in returnData:
                         tmp = []
                         for q in range(0, len(i), 4):
-                            low=int(i[q:q+2], 16)
-                            high=int(i[q+2:q+4], 16)
-                            if(high>0):
-                                val=low+255+high
+                            low = int(i[q:q+2], 16)
+                            high = int(i[q+2:q+4], 16)
+                            if high > 0:
+                                val = low + 255 + high
                             else:
-                                val=low
+                                val = low
                             tmp.append(val)
                         finalData.append(tmp)
                         tmp = []
-                    self.checkOnceAgain=True
-                    ret=self.convert_to_class_object(finalData,isBlock)
-                    if(numIdLearnFlag):
+                    
+                    # Convert data to class objects
+                    ret = self.convert_to_class_object(finalData)
+
+                    # Add additional information if flags are set
+                    if numIdLearnFlag:
                         ret.append(numberOfIDLearned)
-                    if(frameFlag):
+                    if frameFlag:
                         ret.append(frameNumber)
+                    
+                    # Reset the flag for subsequent calls
+                    self.checkOnceAgain = True
                     return ret
             except:
-                if(self.checkOnceAgain):
-                    self.huskylensSer.timeout=5
-                    self.checkOnceAgain=False
-                    self.huskylensSer.timeout=.5
+                if self.checkOnceAgain:
+                    # Check if the connection is serial
+                    if self.proto == "SERIAL":
+                        self.huskylensSer.timeout = 5  # Set the timeout for serial connection
+                    elif self.proto == "I2C":
+                        # SMBus objects do not have a timeout attribute
+                        pass
+                    self.checkOnceAgain = False
                     return self.processReturnData()
                 print("Read response error, please try again")
-                self.huskylensSer.flushInput()
-                self.huskylensSer.flushOutput()
-                self.huskylensSer.flush()
+                # Check if the connection is serial
+                if self.proto == "SERIAL":
+                    self.huskylensSer.flushInput()
+                    self.huskylensSer.flushOutput()
+                    self.huskylensSer.flush()
+                elif self.proto == "I2C":
+                    pass
                 return []
+
 
     def convert_to_class_object(self,data,isBlock):
         tmp=[]
@@ -327,9 +341,12 @@ class HuskyLensLibrary:
         return self.processReturnData()
 
     def blocks(self):
-        cmd = self.cmdToBytes(commandHeaderAndAddress+"002131")
-        self.writeToHuskyLens(cmd)
-        return self.processReturnData()[0]
+        cmd = self.cmdToBytes(commandHeaderAndAddress + "002131")
+        response = self.processReturnData()
+        if response:
+            return response[0]
+        else:
+            return []  # Return an empty list if no data is received
 
     def arrows(self):
         cmd = self.cmdToBytes(commandHeaderAndAddress+"002232")
