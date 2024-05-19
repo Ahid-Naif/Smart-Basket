@@ -10,10 +10,10 @@ huskyLens = HuskyLensLibrary("I2C","",address=0x32)
 while(True):
     data=huskyLens.blocks()
     print(data)
-    print("!!!!!!!")
-    print(huskyLens.learned)
-    print("------")
-    print(huskyLens.learned())
+    # print("!!!!!!!")
+    # print(huskyLens.learned)
+    # print("------")
+    # print(huskyLens.learned())
     x=0
     # for i in data:
     #     x=x+1
