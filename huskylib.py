@@ -217,7 +217,12 @@ class HuskyLensLibrary:
                     self.checkOnceAgain = False
                     return self.processReturnData()
                 print(f"Read response error: {e}")
-                self.huskylensSer.flushInput()
+                # Check if the connection is serial
+                if self.proto == "SERIAL":
+                    self.huskylensSer.flushInput()
+                elif self.proto == "I2C":
+                    # SMBus objects do not have a timeout attribute
+                    pass
                 self.huskylensSer.flushOutput()
                 self.huskylensSer.flush()
                 return []
