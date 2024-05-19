@@ -331,11 +331,12 @@ class HuskyLensLibrary:
         self.writeToHuskyLens(cmd)
         try:
             # Your code block where the IndexError might occur
-            return_value = self.processReturnData()[0]
+            return self.processReturnData()[0]
         except IndexError:
             # Code to handle the IndexError
             print("IndexError: list index out of range")
-            # Additional actions if needed, like returning a default value or logging
+            
+            return None
 
 
     def arrows(self):
