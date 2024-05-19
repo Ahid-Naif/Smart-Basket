@@ -127,6 +127,8 @@ class Object_Tracking_Robot:
         if self.rightMotorSpeed > 0:
             if abs(self.rightMotorSpeed) > maxSpeed:
                 self.rightMotorSpeed = maxSpeed
+            elif abs(self.rightMotorSpeed) < minSpeed:
+                self.rightMotorSpeed = minSpeed
             else:
                 self.rightMotorSpeed = abs(self.rightMotorSpeed)
             
@@ -137,6 +139,8 @@ class Object_Tracking_Robot:
         else:
             if abs(self.rightMotorSpeed) > maxSpeed:
                 self.rightMotorSpeed = maxSpeed
+            elif abs(self.rightMotorSpeed) < minSpeed:
+                self.rightMotorSpeed = minSpeed
             else:
                 self.rightMotorSpeed = abs(self.rightMotorSpeed)
 
@@ -148,6 +152,8 @@ class Object_Tracking_Robot:
         if self.leftMotorSpeed > 0:
             if abs(self.leftMotorSpeed) > maxSpeed:
                 self.leftMotorSpeed = maxSpeed
+            elif abs(self.leftMotorSpeed) < minSpeed:
+                self.leftMotorSpeed = minSpeed
             else:
                 self.leftMotorSpeed = abs(self.leftMotorSpeed)
 
@@ -158,6 +164,8 @@ class Object_Tracking_Robot:
         else:
             if abs(self.leftMotorSpeed) > maxSpeed:
                 self.leftMotorSpeed = maxSpeed
+            elif abs(self.leftMotorSpeed) < minSpeed:
+                self.leftMotorSpeed = minSpeed
             else:
                 self.leftMotorSpeed = abs(self.leftMotorSpeed)
 
