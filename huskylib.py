@@ -219,9 +219,10 @@ class HuskyLensLibrary:
                     self.checkOnceAgain=False
                     return self.processReturnData()
                 print("Read response error, please try again")
-                self.huskylensSer.flushInput()
-                self.huskylensSer.flushOutput()
-                self.huskylensSer.flush()
+                if(self.proto == "SERIAL"):
+                    self.huskylensSer.flushInput()
+                    self.huskylensSer.flushOutput()
+                    self.huskylensSer.flush()
                 return []
 
     def convert_to_class_object(self,data,isBlock):
