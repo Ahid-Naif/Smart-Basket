@@ -14,9 +14,10 @@ def printObjectNicely(obj):
 
 while(True):
     data=huskyLens.blocks()
+    if data == None:
+        continue
     printObjectNicely(data)
-    # if data == None:
-    #     continue
+    
     # x=0
     # for i in data:
     #     x=x+1
