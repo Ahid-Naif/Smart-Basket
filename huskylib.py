@@ -391,7 +391,13 @@ class HuskyLensLibrary:
             cmd += self.calculateChecksum(cmd)
             cmd = self.cmdToBytes(cmd)
             self.writeToHuskyLens(cmd)
-            return self.processReturnData()
+            try:
+                # Your code block where the IndexError might occur
+                return self.processReturnData()
+            except IndexError:
+                # Code to handle the IndexError
+                print("IndexError: list index out of range")
+                return None
         else:
             print("INCORRECT ALGORITHIM NAME")
 
