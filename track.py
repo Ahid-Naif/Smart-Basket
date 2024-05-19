@@ -106,7 +106,7 @@ class Object_Tracking_Robot:
             vyNew = vyNew * (abs(vy)/vy)
 
         if (Tw - self.Ow) > 0:
-            if (Tw - self.Ow) > 20:
+            if (Tw - self.Ow) > 30:
                 vyNew = vyNew + ( (Tw - self.Ow)/2 )
             else:
                 vyNew = vyNew + (Tw - self.Ow)
