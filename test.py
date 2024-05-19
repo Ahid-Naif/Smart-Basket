@@ -18,7 +18,8 @@ def printObjectNicely(obj):
         print("\t "+ ("BLOCK_" if obj.type=="BLOCK" else "ARROW_")+str(count)+" : "+ json.dumps(obj.__dict__))
 
 while(True):
-    data=huskyLens.blocks()
+    # data=huskyLens.blocks()
+    data = huskyLens.requestAll()
     if data == None:
         continue
     printObjectNicely(data)
