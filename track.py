@@ -111,6 +111,9 @@ class Object_Tracking_Robot:
             else:
                 vyNew = vyNew + (Tw - self.Ow)
 
+        if self.Ow >= Tw:
+            vyNew = 0
+
         self.rightMotorSpeed = vyNew - vxNew
         self.leftMotorSpeed = vyNew + vxNew
 
