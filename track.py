@@ -100,7 +100,9 @@ class Object_Tracking_Robot:
         vxNew = map_value(abs(vx), 0, 160, minSpeed, maxSpeed) / 2
         vyNew = map_value(abs(vy), 0, 120, minSpeed, maxSpeed) / 2
 
-        vxNew = vxNew * (abs(vx)/vx)
+        if vx != 0:
+            vxNew = vxNew * (abs(vx)/vx)
+        if vy != 0
         vyNew = vyNew * (abs(vy)/vy)
 
         if (self.Tw - self.Ow) > 0:
