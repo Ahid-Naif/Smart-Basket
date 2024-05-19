@@ -114,6 +114,10 @@ class Object_Tracking_Robot:
         self.rightMotorSpeed = vyNew - vxNew
         self.leftMotorSpeed = vyNew + vxNew
 
+        if self.Ow >= self.Tw:
+            self.rightMotorSpeed = 0
+            self.leftMotorSpeed = 0
+
         # if(abs(self.rightMotorSpeed) < minSpeed):
         #     self.rightMotorSpeed = 0
         
