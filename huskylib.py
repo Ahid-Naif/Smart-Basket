@@ -329,7 +329,14 @@ class HuskyLensLibrary:
     def blocks(self):
         cmd = self.cmdToBytes(commandHeaderAndAddress+"002131")
         self.writeToHuskyLens(cmd)
-        return self.processReturnData()[0]
+        try:
+            # Your code block where the IndexError might occur
+            return_value = self.processReturnData()[0]
+        except IndexError:
+            # Code to handle the IndexError
+            print("IndexError: list index out of range")
+            # Additional actions if needed, like returning a default value or logging
+
 
     def arrows(self):
         cmd = self.cmdToBytes(commandHeaderAndAddress+"002232")
