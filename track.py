@@ -103,7 +103,7 @@ class Object_Tracking_Robot:
         if vx != 0:
             vxNew = vxNew * (abs(vx)/vx)
         if vy != 0:
-        vyNew = vyNew * (abs(vy)/vy)
+            vyNew = vyNew * (abs(vy)/vy)
 
         if (self.Tw - self.Ow) > 0:
             vyNew = vyNew + (self.Tw - self.Ow)
