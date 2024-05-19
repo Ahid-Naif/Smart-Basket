@@ -109,8 +109,8 @@ class Object_Tracking_Robot:
         if vyNew > (maxSpeed/2):
             vyNew = maxSpeed / 2
 
-        self.rightMotorSpeed = vyNew - vyNew
-        self.leftMotorSpeed = vyNew + vyNew
+        self.rightMotorSpeed = vyNew - vxNew
+        self.leftMotorSpeed = vyNew + vxNew
 
         # if(abs(self.rightMotorSpeed) < minSpeed):
         #     self.rightMotorSpeed = 0
