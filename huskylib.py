@@ -338,7 +338,6 @@ class HuskyLensLibrary:
             
             return None
 
-
     def arrows(self):
         cmd = self.cmdToBytes(commandHeaderAndAddress+"002232")
         self.writeToHuskyLens(cmd)
