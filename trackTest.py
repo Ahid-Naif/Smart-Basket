@@ -6,7 +6,7 @@ import RPi.GPIO as GPIO
 import sys
 
 huskyLens = HuskyLensLibrary("I2C","",address=0x32)
-huskyLens.algorthim("ALGORITHM_OBJECT_TRACKING")
+# huskyLens.algorthim("ALGORITHM_OBJECT_TRACKING")
 while(True):
     data=huskyLens.blocks()
     print(data)
