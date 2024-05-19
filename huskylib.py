@@ -215,7 +215,6 @@ class HuskyLensLibrary:
                         # SMBus objects do not have a timeout attribute
                         pass
                     self.checkOnceAgain = False
-                    self.huskylensSer.timeout = 0.5
                     return self.processReturnData()
                 print(f"Read response error: {e}")
                 self.huskylensSer.flushInput()
