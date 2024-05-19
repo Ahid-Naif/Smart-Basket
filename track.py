@@ -111,9 +111,6 @@ class Object_Tracking_Robot:
             else:
                 vyNew = vyNew + (Tw - self.Ow)
 
-        if self.Ow >= Tw:
-            vyNew = 0
-
         self.rightMotorSpeed = vyNew - vxNew
         self.leftMotorSpeed = vyNew + vxNew
 
@@ -128,9 +125,9 @@ class Object_Tracking_Robot:
             else:
                 self.rightMotorSpeed = abs(self.rightMotorSpeed)
 
-            # if self.Ow >= Tw:
-            #     self.rightMotorSpeed = 0
-            #     self.leftMotorSpeed = 0
+            if self.Ow >= Tw:
+                self.rightMotorSpeed = 0
+                self.leftMotorSpeed = 0
             
             print("rightMotor - forward, Speed: {}".format(self.rightMotorSpeed))
             p.ChangeDutyCycle(self.rightMotorSpeed)
@@ -146,7 +143,7 @@ class Object_Tracking_Robot:
 
             if self.Ow >= Tw:
                 self.rightMotorSpeed = 0
-            #     self.leftMotorSpeed = 0
+                self.leftMotorSpeed = 0
 
             print("rightMotor - backward , Speed: {}".format(self.rightMotorSpeed))
             p.ChangeDutyCycle(self.rightMotorSpeed)
@@ -161,9 +158,9 @@ class Object_Tracking_Robot:
             else:
                 self.leftMotorSpeed = abs(self.leftMotorSpeed)
 
-            # if self.Ow >= Tw:
-            #     self.rightMotorSpeed = 0
-            #     self.leftMotorSpeed = 0
+            if self.Ow >= Tw:
+                self.rightMotorSpeed = 0
+                self.leftMotorSpeed = 0
 
             print("leftMotor - forward, Speed: {}".format(self.leftMotorSpeed))
             p2.ChangeDutyCycle(self.leftMotorSpeed)
@@ -178,7 +175,7 @@ class Object_Tracking_Robot:
                 self.leftMotorSpeed = abs(self.leftMotorSpeed)
 
             if self.Ow >= Tw:
-                # self.rightMotorSpeed = 0
+                self.rightMotorSpeed = 0
                 self.leftMotorSpeed = 0
 
             print("leftMotor - backward , Speed: {}".format(self.leftMotorSpeed))
