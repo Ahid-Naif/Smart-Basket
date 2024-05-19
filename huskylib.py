@@ -320,9 +320,12 @@ class HuskyLensLibrary:
         return self.processReturnData()
 
     def blocks(self):
-        cmd = self.cmdToBytes(commandHeaderAndAddress+"002131")
-        self.writeToHuskyLens(cmd)
-        return self.processReturnData()[0]
+        cmd = self.cmdToBytes(commandHeaderAndAddress + "002131")
+        response = self.processReturnData()
+        if response:
+            return response[0]
+        else:
+            return []  # Return an empty list if no data is received
 
     def arrows(self):
         cmd = self.cmdToBytes(commandHeaderAndAddress+"002232")
