@@ -111,16 +111,6 @@ class Object_Tracking_Robot:
         self.rightMotorSpeed = vyNew - vxNew
         self.leftMotorSpeed = vyNew + vxNew
 
-        if self.Ow >= Tw:
-            self.rightMotorSpeed = 0
-            self.leftMotorSpeed = 0
-
-        # if(abs(self.rightMotorSpeed) < minSpeed):
-        #     self.rightMotorSpeed = 0
-        
-        # if(abs(self.leftMotorSpeed) < minSpeed):
-        #     self.leftMotorSpeed = 0
-
         self.MOVE_ROBOT()
 
     def MOVE_ROBOT(self):
@@ -131,6 +121,10 @@ class Object_Tracking_Robot:
                 self.rightMotorSpeed = minSpeed
             else:
                 self.rightMotorSpeed = abs(self.rightMotorSpeed)
+
+            if self.Ow >= Tw:
+                self.rightMotorSpeed = 0
+                self.leftMotorSpeed = 0
             
             print("rightMotor - forward, Speed: {}".format(self.rightMotorSpeed))
             p.ChangeDutyCycle(self.rightMotorSpeed)
@@ -143,6 +137,10 @@ class Object_Tracking_Robot:
                 self.rightMotorSpeed = minSpeed
             else:
                 self.rightMotorSpeed = abs(self.rightMotorSpeed)
+
+            if self.Ow >= Tw:
+                self.rightMotorSpeed = 0
+                self.leftMotorSpeed = 0
 
             print("rightMotor - backward , Speed: {}".format(self.rightMotorSpeed))
             p.ChangeDutyCycle(self.rightMotorSpeed)
@@ -157,6 +155,10 @@ class Object_Tracking_Robot:
             else:
                 self.leftMotorSpeed = abs(self.leftMotorSpeed)
 
+            if self.Ow >= Tw:
+                self.rightMotorSpeed = 0
+                self.leftMotorSpeed = 0
+
             print("leftMotor - forward, Speed: {}".format(self.leftMotorSpeed))
             p2.ChangeDutyCycle(self.leftMotorSpeed)
             GPIO.output(in3,GPIO.HIGH)
@@ -168,6 +170,10 @@ class Object_Tracking_Robot:
                 self.leftMotorSpeed = minSpeed
             else:
                 self.leftMotorSpeed = abs(self.leftMotorSpeed)
+
+            if self.Ow >= Tw:
+                self.rightMotorSpeed = 0
+                self.leftMotorSpeed = 0
 
             print("leftMotor - backward , Speed: {}".format(self.leftMotorSpeed))
             p2.ChangeDutyCycle(self.leftMotorSpeed)
