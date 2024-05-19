@@ -7,4 +7,4 @@ while(true):
     x=0
     for i in data:
         x=x+1
-        print("Face {} data: {}".format(x,i)
+        print("Face {} data: {}".format(x,i))
