@@ -7,7 +7,7 @@ while(True):
     print(data)
     if data == None:
         continue
-    x=0
-    for i in data:
-        x=x+1
-        print("Face {} data: {}".format(x,i))
+    # x=0
+    # for i in data:
+    #     x=x+1
+    #     print("Face {} data: {}".format(x,i))
