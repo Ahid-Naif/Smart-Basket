@@ -9,7 +9,7 @@ minSpeed = 0
 maxSpeed = 0
 
 # Check if the required number of command-line arguments are provided
-if len(sys.argv) != 6:
+if len(sys.argv) != 5:
     print("Usage: python script.py <minSpeed> <maxSpeed> <targetObjectWidth> <veritcalThreshold> <horizontalThreshold>")
     sys.exit(1)
 
@@ -17,9 +17,9 @@ if len(sys.argv) != 6:
 try:
     minSpeed = float(sys.argv[1])
     maxSpeed = float(sys.argv[2])
-    Tw = float(sys.argv[3])
-    Vthold = float(sys.argv[4])
-    Hthold = float(sys.argv[5])
+    # Tw = float(sys.argv[3])
+    Vthold = float(sys.argv[3])
+    Hthold = float(sys.argv[4])
 except ValueError:
     print("Enter: <minSpeed> <maxSpeed> <targetObjectWidth> <veritcalThreshold> <horizontalThreshold")
     sys.exit(1)
@@ -120,11 +120,11 @@ class Object_Tracking_Robot:
         if vy != 0:
             vyNew = vyNew * (abs(vy)/vy)
 
-        if (Tw - self.Ow) > 0:
-            if (Tw - self.Ow) > 30:
-                vyNew = vyNew + ( (Tw - self.Ow)/2 )
-            else:
-                vyNew = vyNew + (Tw - self.Ow)
+        # if (Tw - self.Ow) > 0:
+        #     if (Tw - self.Ow) > 30:
+        #         vyNew = vyNew + ( (Tw - self.Ow)/2 )
+        #     else:
+        #         vyNew = vyNew + (Tw - self.Ow)
 
         self.rightMotorSpeed = vyNew - vxNew
         self.leftMotorSpeed = vyNew + vxNew
@@ -140,7 +140,7 @@ class Object_Tracking_Robot:
             else:
                 self.rightMotorSpeed = abs(self.rightMotorSpeed)
 
-            if self.Ow >= Tw or (not self.is_running) or ((self.cy - self.Oy)< -Vthold):
+            if (not self.is_running) or ((self.cy - self.Oy)< -Vthold):
                 self.rightMotorSpeed = 0
                 self.leftMotorSpeed = 0
             
@@ -156,7 +156,7 @@ class Object_Tracking_Robot:
             else:
                 self.rightMotorSpeed = abs(self.rightMotorSpeed)
 
-            if self.Ow >= Tw or (not self.is_running):
+            if (not self.is_running) or ((self.cy - self.Oy)< -Vthold):
                 self.rightMotorSpeed = 0
                 self.leftMotorSpeed = 0
 
@@ -173,7 +173,7 @@ class Object_Tracking_Robot:
             else:
                 self.leftMotorSpeed = abs(self.leftMotorSpeed)
 
-            if self.Ow >= Tw or (not self.is_running):
+            if (not self.is_running) or ((self.cy - self.Oy)< -Vthold):
                 self.rightMotorSpeed = 0
                 self.leftMotorSpeed = 0
 
@@ -189,7 +189,7 @@ class Object_Tracking_Robot:
             else:
                 self.leftMotorSpeed = abs(self.leftMotorSpeed)
 
-            if self.Ow >= Tw or (not self.is_running):
+            if (not self.is_running) or ((self.cy - self.Oy)< -Vthold):
                 self.rightMotorSpeed = 0
                 self.leftMotorSpeed = 0
 
