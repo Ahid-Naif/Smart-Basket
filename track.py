@@ -9,7 +9,7 @@ minSpeed = 0
 maxSpeed = 0
 
 # Check if the required number of command-line arguments are provided
-if len(sys.argv) != 4:
+if len(sys.argv) != 5:
     print("Usage: python script.py <minSpeed> <maxSpeed> <targetObjectWidth>")
     sys.exit(1)
 
@@ -18,6 +18,7 @@ try:
     minSpeed = float(sys.argv[1])
     maxSpeed = float(sys.argv[2])
     Tw = float(sys.argv[3])
+    Hthold = float(sys.argv[4])
 except ValueError:
     print("Error: minSpeed and maxSpeed must be numeric values.")
     sys.exit(1)
@@ -104,9 +105,9 @@ class Object_Tracking_Robot:
         vx = self.Ox - self.cx
         vy = self.cy - self.Oy
 
-        if abs(vx) < 15:
+        if abs(vx) < Hthold:
             vx = 0
-        if abs(vy) < 15:
+        if abs(vy) < Hthold:
             vy = 0
         
         # mapping
