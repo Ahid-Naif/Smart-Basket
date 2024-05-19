@@ -97,8 +97,8 @@ class Object_Tracking_Robot:
         vy = self.cy - self.Oy
         
         # mapping
-        vxNew = map_value(abs(vx), 0, 160, minSpeed, maxSpeed) / 2
-        vyNew = map_value(abs(vy), 0, 120, minSpeed, maxSpeed) / 2
+        vxNew = map_value(abs(vx), 0, 160, minSpeed, maxSpeed)
+        vyNew = map_value(abs(vy), 0, 120, minSpeed, maxSpeed)
 
         if vx != 0:
             vxNew = vxNew * (abs(vx)/vx)
@@ -107,9 +107,6 @@ class Object_Tracking_Robot:
 
         if (Tw - self.Ow) > 0:
             vyNew = vyNew + (Tw - self.Ow)
-        
-        if vyNew > (maxSpeed/2):
-            vyNew = maxSpeed / 2
 
         self.rightMotorSpeed = vyNew - vxNew
         self.leftMotorSpeed = vyNew + vxNew
@@ -128,24 +125,44 @@ class Object_Tracking_Robot:
 
     def MOVE_ROBOT(self):
         if self.rightMotorSpeed > 0:
+            if abs(self.rightMotorSpeed) > maxSpeed:
+                self.rightMotorSpeed = maxSpeed
+            else:
+                self.rightMotorSpeed = abs(self.rightMotorSpeed)
+            
             print("rightMotor - forward, Speed: {}".format(self.rightMotorSpeed))
-            p.ChangeDutyCycle(abs(self.rightMotorSpeed))
+            p.ChangeDutyCycle(self.rightMotorSpeed)
             GPIO.output(in1,GPIO.HIGH)
             GPIO.output(in2,GPIO.LOW)
         else:
+            if abs(self.rightMotorSpeed) > maxSpeed:
+                self.rightMotorSpeed = maxSpeed
+            else:
+                self.rightMotorSpeed = abs(self.rightMotorSpeed)
+
             print("rightMotor - backward , Speed: {}".format(self.rightMotorSpeed))
-            p.ChangeDutyCycle(abs(self.rightMotorSpeed))
+            p.ChangeDutyCycle(self.rightMotorSpeed)
             GPIO.output(in1,GPIO.LOW)
             GPIO.output(in2,GPIO.HIGH)
         
         if self.leftMotorSpeed > 0:
+            if abs(self.leftMotorSpeed) > maxSpeed:
+                self.leftMotorSpeed = maxSpeed
+            else:
+                self.leftMotorSpeed = abs(self.leftMotorSpeed)
+
             print("leftMotor - forward, Speed: {}".format(self.leftMotorSpeed))
-            p2.ChangeDutyCycle(abs(self.leftMotorSpeed))
+            p2.ChangeDutyCycle(self.leftMotorSpeed)
             GPIO.output(in3,GPIO.HIGH)
             GPIO.output(in4,GPIO.LOW)
         else:
+            if abs(self.leftMotorSpeed) > maxSpeed:
+                self.leftMotorSpeed = maxSpeed
+            else:
+                self.leftMotorSpeed = abs(self.leftMotorSpeed)
+
             print("leftMotor - backward , Speed: {}".format(self.leftMotorSpeed))
-            p2.ChangeDutyCycle(abs(self.leftMotorSpeed))
+            p2.ChangeDutyCycle(self.leftMotorSpeed)
             GPIO.output(in3,GPIO.LOW)
             GPIO.output(in4,GPIO.HIGH)
 
