@@ -7,7 +7,7 @@ import sys
 
 huskyLens = HuskyLensLibrary("I2C","",address=0x32)
 huskyLens.algorthim("ALGORITHM_OBJECT_TRACKING")
-while(true):
+while(True):
     data=huskyLens.blocks()
     print(data)
     x=0
