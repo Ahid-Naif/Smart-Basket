@@ -4,6 +4,7 @@ huskyLens = HuskyLensLibrary("I2C","",address=0x32)
 huskyLens.algorthim("ALGORITHM_OBJECT_RECOGNITION")
 while(True):
     data=huskyLens.blocks()
+    print(data)
     if data == None:
         continue
     x=0
