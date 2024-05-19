@@ -9,14 +9,15 @@ minSpeed = 0
 maxSpeed = 0
 
 # Check if the required number of command-line arguments are provided
-if len(sys.argv) != 3:
-    print("Usage: python script.py <minSpeed> <maxSpeed>")
+if len(sys.argv) != 4:
+    print("Usage: python script.py <minSpeed> <maxSpeed> <targetObjectWidth>")
     sys.exit(1)
 
 # Get the values of minSpeed and maxSpeed from command-line arguments
 try:
     minSpeed = float(sys.argv[1])
     maxSpeed = float(sys.argv[2])
+    Tw = float(sys.argv[3])
 except ValueError:
     print("Error: minSpeed and maxSpeed must be numeric values.")
     sys.exit(1)
@@ -62,7 +63,6 @@ class Object_Tracking_Robot:
         self.cx = 160 # screen x venter
         self.cy = 120 # screen y center
         
-        self.Tw = 60 # target width - this dimension determines how close to the camera the object should be 
         self.Ow = 0 # Object width
         self.Oh = 0 # Object height
         self.Ox = 0 # Object x center
@@ -105,8 +105,8 @@ class Object_Tracking_Robot:
         if vy != 0:
             vyNew = vyNew * (abs(vy)/vy)
 
-        if (self.Tw - self.Ow) > 0:
-            vyNew = vyNew + (self.Tw - self.Ow)
+        if (Tw - self.Ow) > 0:
+            vyNew = vyNew + (Tw - self.Ow)
         
         if vyNew > (maxSpeed/2):
             vyNew = maxSpeed / 2
@@ -114,7 +114,7 @@ class Object_Tracking_Robot:
         self.rightMotorSpeed = vyNew - vxNew
         self.leftMotorSpeed = vyNew + vxNew
 
-        if self.Ow >= self.Tw:
+        if self.Ow >= Tw:
             self.rightMotorSpeed = 0
             self.leftMotorSpeed = 0
 
