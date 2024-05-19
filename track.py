@@ -103,6 +103,11 @@ class Object_Tracking_Robot:
 
         vx = self.Ox - self.cx
         vy = self.cy - self.Oy
+
+        if abs(vx) < 15:
+            vx = 0
+        if abs(vy) < 15:
+            vy = 0
         
         # mapping
         vxNew = map_value(abs(vx), 0, 160, minSpeed, maxSpeed)
