@@ -1,10 +1,12 @@
 [
     {
         "name": "water",
-        "id": "ABC-abc-1234"
+        "id": "0123-4567",
+        "price": "2 S.R."
     },
     {
         "name": "juice",
-        "id": "ABC-abc-1233"
+        "id": "0123-4567",
+        "price": "7 S.R."
     }
 ]
