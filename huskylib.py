@@ -214,9 +214,9 @@ class HuskyLensLibrary:
                     return ret
             except:
                 if(self.checkOnceAgain):
-                    self.huskylensSer.timeout=5
+                    if(self.proto == "SERIAL"):
+                        self.huskylensSer.timeout=5
                     self.checkOnceAgain=False
-                    self.huskylensSer.timeout=.5
                     return self.processReturnData()
                 print("Read response error, please try again")
                 self.huskylensSer.flushInput()
