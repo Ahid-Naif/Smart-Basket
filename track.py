@@ -94,14 +94,23 @@ class Object_Tracking_Robot:
         # Get the recently read block from the HuskyLens
         self.decodeHuskyLens(self.husky_lens.blocks())
         vx = self.Ox - self.cx
-        vy = self.cy - self.Oy + (self.Tw - self.Ow)
+        vy = self.cy - self.Oy
         
         # mapping
-        vx = map_value(vx, 0, 160, minSpeed, maxSpeed) / 2
-        vy = map_value(vy, 0, 120, minSpeed, maxSpeed) / 2
+        vxNew = map_value(abs(vx), 0, 160, minSpeed, maxSpeed) / 2
+        vyNew = map_value(abs(vy), 0, 120, minSpeed, maxSpeed) / 2
 
-        self.rightMotorSpeed = vy - vx
-        self.leftMotorSpeed = vy + vx
+        vxNew = vxNew * (abs(vx)/vx)
+        vyNew = vyNew * (abs(vy)/vy)
+
+        if (self.Tw - self.Ow) > 0:
+            vyNew = vyNew + (self.Tw - self.Ow)
+        
+        if vyNew > (maxSpeed/2):
+            vyNew = maxSpeed / 2
+
+        self.rightMotorSpeed = vyNew - vyNew
+        self.leftMotorSpeed = vyNew + vyNew
 
         # if(abs(self.rightMotorSpeed) < minSpeed):
         #     self.rightMotorSpeed = 0
@@ -140,4 +149,4 @@ robot = Object_Tracking_Robot()
 while True:
     # Get blocks from the HuskyLens:
     robot.OBJECT_TRACKING()
-    sleep(1)
+    # sleep(1)
