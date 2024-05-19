@@ -60,6 +60,8 @@ class Object_Tracking_Robot:
     def __init__(self):
         # Define HusklyLens settings
         self.husky_lens = HuskyLensLibrary("I2C", "", address=0x32)
+        self.is_running = True
+
         self.cx = 160 # screen x venter
         self.cy = 120 # screen y center
         
@@ -97,32 +99,29 @@ class Object_Tracking_Robot:
             
     def OBJECT_TRACKING(self):
         # Get the recently read block from the HuskyLens
-        is_running  = self.decodeHuskyLens(self.husky_lens.blocks())
-        if is_running:
-            vx = self.Ox - self.cx
-            vy = self.cy - self.Oy
-            
-            # mapping
-            vxNew = map_value(abs(vx), 0, 160, minSpeed, maxSpeed)
-            vyNew = map_value(abs(vy), 0, 120, minSpeed, maxSpeed)
+        self.is_running  = self.decodeHuskyLens(self.husky_lens.blocks())
 
-            if vx != 0:
-                vxNew = vxNew * (abs(vx)/vx)
-            if vy != 0:
-                vyNew = vyNew * (abs(vy)/vy)
+        vx = self.Ox - self.cx
+        vy = self.cy - self.Oy
+        
+        # mapping
+        vxNew = map_value(abs(vx), 0, 160, minSpeed, maxSpeed)
+        vyNew = map_value(abs(vy), 0, 120, minSpeed, maxSpeed)
 
-            if (Tw - self.Ow) > 0:
-                if (Tw - self.Ow) > 30:
-                    vyNew = vyNew + ( (Tw - self.Ow)/2 )
-                else:
-                    vyNew = vyNew + (Tw - self.Ow)
+        if vx != 0:
+            vxNew = vxNew * (abs(vx)/vx)
+        if vy != 0:
+            vyNew = vyNew * (abs(vy)/vy)
 
-            self.rightMotorSpeed = vyNew - vxNew
-            self.leftMotorSpeed = vyNew + vxNew
-        else:
-            self.rightMotorSpeed = 0
-            self.leftMotorSpeed = 0
-            
+        if (Tw - self.Ow) > 0:
+            if (Tw - self.Ow) > 30:
+                vyNew = vyNew + ( (Tw - self.Ow)/2 )
+            else:
+                vyNew = vyNew + (Tw - self.Ow)
+
+        self.rightMotorSpeed = vyNew - vxNew
+        self.leftMotorSpeed = vyNew + vxNew
+
         self.MOVE_ROBOT()
 
     def MOVE_ROBOT(self):
@@ -134,7 +133,7 @@ class Object_Tracking_Robot:
             else:
                 self.rightMotorSpeed = abs(self.rightMotorSpeed)
 
-            if self.Ow >= Tw:
+            if self.Ow >= Tw or (not self.is_running):
                 self.rightMotorSpeed = 0
                 self.leftMotorSpeed = 0
             
@@ -150,7 +149,7 @@ class Object_Tracking_Robot:
             else:
                 self.rightMotorSpeed = abs(self.rightMotorSpeed)
 
-            if self.Ow >= Tw:
+            if self.Ow >= Tw or (not self.is_running):
                 self.rightMotorSpeed = 0
                 self.leftMotorSpeed = 0
 
@@ -167,7 +166,7 @@ class Object_Tracking_Robot:
             else:
                 self.leftMotorSpeed = abs(self.leftMotorSpeed)
 
-            if self.Ow >= Tw:
+            if self.Ow >= Tw or (not self.is_running):
                 self.rightMotorSpeed = 0
                 self.leftMotorSpeed = 0
 
@@ -183,7 +182,7 @@ class Object_Tracking_Robot:
             else:
                 self.leftMotorSpeed = abs(self.leftMotorSpeed)
 
-            if self.Ow >= Tw:
+            if self.Ow >= Tw or (not self.is_running):
                 self.rightMotorSpeed = 0
                 self.leftMotorSpeed = 0
 
