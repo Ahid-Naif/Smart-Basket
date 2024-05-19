@@ -9,8 +9,8 @@ minSpeed = 0
 maxSpeed = 0
 
 # Check if the required number of command-line arguments are provided
-if len(sys.argv) != 5:
-    print("Usage: python script.py <minSpeed> <maxSpeed> <targetObjectWidth>")
+if len(sys.argv) != 6:
+    print("Usage: python script.py <minSpeed> <maxSpeed> <targetObjectWidth> <veritcalThreshold> <horizontalThreshold>")
     sys.exit(1)
 
 # Get the values of minSpeed and maxSpeed from command-line arguments
@@ -18,9 +18,10 @@ try:
     minSpeed = float(sys.argv[1])
     maxSpeed = float(sys.argv[2])
     Tw = float(sys.argv[3])
-    Hthold = float(sys.argv[4])
+    Vthold = float(sys.argv[4])
+    Hthold = float(sys.argv[5])
 except ValueError:
-    print("Error: minSpeed and maxSpeed must be numeric values.")
+    print("Enter: <minSpeed> <maxSpeed> <targetObjectWidth> <veritcalThreshold> <horizontalThreshold")
     sys.exit(1)
 
 in1 = 24
@@ -139,7 +140,7 @@ class Object_Tracking_Robot:
             else:
                 self.rightMotorSpeed = abs(self.rightMotorSpeed)
 
-            if self.Ow >= Tw or (not self.is_running):
+            if self.Ow >= Tw or (not self.is_running) or ((self.cy - self.Oy)< -Vthold):
                 self.rightMotorSpeed = 0
                 self.leftMotorSpeed = 0
             
