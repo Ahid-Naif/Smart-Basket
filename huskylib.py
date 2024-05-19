@@ -158,6 +158,7 @@ class HuskyLensLibrary:
         byteString = ""
         if inProduction:
             try:
+                # Read data from the HuskyLens
                 if self.proto == "SERIAL":
                     byteString = self.huskylensSer.read(5)
                     byteString += self.huskylensSer.read(int(byteString[3]))
@@ -166,32 +167,36 @@ class HuskyLensLibrary:
                     byteString = b''
                     for i in range(5):
                         byteString += bytes([(self.huskylensSer.read_byte(self.address))])
-                    for i in range(int(byteString[3]) + 1):
+                    for i in range(int(byteString[3])+1):
                         byteString += bytes([(self.huskylensSer.read_byte(self.address))])
+                
+                # Split the received data into parts
                 commandSplit = self.splitCommandToParts(byteString.hex())
+                # Check if the command is a "Knock received" command
                 if commandSplit[3] == "2e":
                     self.checkOnceAgain = True
                     return "Knock Received"
                 else:
+                    # Extract data from the command
                     returnData = []
                     numberOfBlocksOrArrow = int(commandSplit[4][2:4] + commandSplit[4][0:2], 16)
                     numberOfIDLearned = int(commandSplit[4][6:8] + commandSplit[4][4:6], 16)
                     frameNumber = int(commandSplit[4][10:12] + commandSplit[4][8:10], 16)
-                    isBlock = True
-                    if commandSplit[4]:
-                        numberOfBlocksOrArrow = int(commandSplit[4][2:4] + commandSplit[4][0:2], 16)
+                    
+                    # Process blocks or arrows data
                     for i in range(numberOfBlocksOrArrow):
                         tmpObj = self.getBlockOrArrowCommand()
-                        isBlock = tmpObj[1]
                         returnData.append(tmpObj[0])
 
                     finalData = []
                     tmp = []
+
+                    # Convert the raw data into class objects (Block or Arrow)
                     for i in returnData:
                         tmp = []
                         for q in range(0, len(i), 4):
-                            low = int(i[q:q + 2], 16)
-                            high = int(i[q + 2:q + 4], 16)
+                            low = int(i[q:q+2], 16)
+                            high = int(i[q+2:q+4], 16)
                             if high > 0:
                                 val = low + 255 + high
                             else:
@@ -199,14 +204,20 @@ class HuskyLensLibrary:
                             tmp.append(val)
                         finalData.append(tmp)
                         tmp = []
-                    self.checkOnceAgain = True
-                    ret = self.convert_to_class_object(finalData, isBlock)  # Pass isBlock parameter
+                    
+                    # Convert data to class objects
+                    ret = self.convert_to_class_object(finalData)
+
+                    # Add additional information if flags are set
                     if numIdLearnFlag:
                         ret.append(numberOfIDLearned)
                     if frameFlag:
                         ret.append(frameNumber)
+                    
+                    # Reset the flag for subsequent calls
+                    self.checkOnceAgain = True
                     return ret
-            except Exception as e:
+            except:
                 if self.checkOnceAgain:
                     # Check if the connection is serial
                     if self.proto == "SERIAL":
@@ -216,7 +227,7 @@ class HuskyLensLibrary:
                         pass
                     self.checkOnceAgain = False
                     return self.processReturnData()
-                print(f"Read response error: {e}")
+                print("Read response error, please try again")
                 # Check if the connection is serial
                 if self.proto == "SERIAL":
                     self.huskylensSer.flushInput()
@@ -330,9 +341,12 @@ class HuskyLensLibrary:
         return self.processReturnData()
 
     def blocks(self):
-        cmd = self.cmdToBytes(commandHeaderAndAddress+"002131")
-        self.writeToHuskyLens(cmd)
-        return self.processReturnData()[0]
+        cmd = self.cmdToBytes(commandHeaderAndAddress + "002131")
+        response = self.processReturnData()
+        if response:
+            return response[0]
+        else:
+            return []  # Return an empty list if no data is received
 
     def arrows(self):
         cmd = self.cmdToBytes(commandHeaderAndAddress+"002232")
