@@ -220,10 +220,10 @@ class HuskyLensLibrary:
                 # Check if the connection is serial
                 if self.proto == "SERIAL":
                     self.huskylensSer.flushInput()
+                    self.huskylensSer.flushOutput()
                 elif self.proto == "I2C":
                     # SMBus objects do not have a timeout attribute
                     pass
-                self.huskylensSer.flushOutput()
                 self.huskylensSer.flush()
                 return []
 
