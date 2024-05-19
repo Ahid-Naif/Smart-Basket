@@ -2,7 +2,7 @@ import sys
 import serial
 
 # Configure the serial port
-serial_port = 'COM15'  # Adjust this based on your barcode scanner's serial port
+serial_port = '/dev/ttyS0'  # Adjust this based on your barcode scanner's serial port
 baud_rate = 9600  # Adjust this based on your barcode scanner's baud rate
 timeout = 1  # Timeout in seconds
 
