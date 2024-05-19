@@ -178,6 +178,8 @@ class HuskyLensLibrary:
                     numberOfIDLearned = int(commandSplit[4][6:8] + commandSplit[4][4:6], 16)
                     frameNumber = int(commandSplit[4][10:12] + commandSplit[4][8:10], 16)
                     isBlock = True
+                    if commandSplit[4]:
+                        numberOfBlocksOrArrow = int(commandSplit[4][2:4] + commandSplit[4][0:2], 16)
                     for i in range(numberOfBlocksOrArrow):
                         tmpObj = self.getBlockOrArrowCommand()
                         isBlock = tmpObj[1]
