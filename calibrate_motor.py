@@ -66,8 +66,8 @@ while(1):
         x='z'
 
     elif x=='f':
-        GPIO.output(in3,GPIO.HIGH)
-        GPIO.output(in4,GPIO.LOW)
+        # GPIO.output(in3,GPIO.HIGH)
+        # GPIO.output(in4,GPIO.LOW)
         print("forward")
         GPIO.output(in1,GPIO.HIGH)
         GPIO.output(in2,GPIO.LOW)
