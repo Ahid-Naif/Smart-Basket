@@ -92,7 +92,7 @@ class Object_Tracking_Robot:
                     self.Ow = json.loads(json.dumps(i.__dict__))["width"]
                     count+=1
         else:
-            if (json.loads(json.dumps(i.__dict__))["ID"] == 1):
+            if (json.loads(json.dumps(obj.__dict__))["ID"] == 1):
                 print("\t " + ("BLOCK_" if obj.type=="BLOCK" else "ARROW_") + str(count) + " : " + json.dumps(obj.__dict__))
                 self.Ox = json.loads(json.dumps(obj.__dict__))["x"]
                 self.Oy = json.loads(json.dumps(obj.__dict__))["y"]
