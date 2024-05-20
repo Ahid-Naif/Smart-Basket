@@ -102,7 +102,7 @@ class Object_Tracking_Robot:
                 self.Ow = json.loads(json.dumps(obj.__dict__))["width"]
                 self.is_running = True
             else:
-                self.is_running = False
+                return False
 
         return True
             
