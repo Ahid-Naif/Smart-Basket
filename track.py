@@ -93,7 +93,7 @@ class Object_Tracking_Robot:
                     count+=1
                     self.is_running = True
                 else:
-                    self.is_running = False
+                    return False
         else:
             if (json.loads(json.dumps(obj.__dict__))["ID"] == 1):
                 print("\t " + ("BLOCK_" if obj.type=="BLOCK" else "ARROW_") + str(count) + " : " + json.dumps(obj.__dict__))
