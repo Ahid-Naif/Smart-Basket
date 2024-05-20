@@ -10,7 +10,7 @@ maxSpeed = 0
 
 # Check if the required number of command-line arguments are provided
 if len(sys.argv) != 5:
-    print("Usage: python script.py <minSpeed> <maxSpeed> <targetObjectWidth>")
+    print("Usage: python script.py <minSpeed> <maxSpeed> <targetObjectWidth> <horizontalThreshold>")
     sys.exit(1)
 
 # Get the values of minSpeed and maxSpeed from command-line arguments
@@ -23,13 +23,13 @@ except ValueError:
     print("Error: minSpeed and maxSpeed must be numeric values.")
     sys.exit(1)
 
-in1 = 24
-in2 = 23
-en1 = 25
+in1 = 15
+in2 = 14
+en1 = 18
 
-in3 = 15
-in4 = 14
-en2 = 18
+in3 = 24
+in4 = 23
+en2 = 25
 
 GPIO.setmode(GPIO.BCM)
 
