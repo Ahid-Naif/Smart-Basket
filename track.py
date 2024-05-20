@@ -23,13 +23,13 @@ except ValueError:
     print("Error: minSpeed and maxSpeed must be numeric values.")
     sys.exit(1)
 
-in1 = 15
-in2 = 14
-en1 = 18
+in1 = 24
+in2 = 23
+en1 = 25
 
-in3 = 24
-in4 = 23
-en2 = 25
+in3 = 15
+in4 = 14
+en2 = 18
 
 GPIO.setmode(GPIO.BCM)
 
