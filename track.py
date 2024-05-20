@@ -10,18 +10,17 @@ maxSpeed = 0
 
 # Check if the required number of command-line arguments are provided
 if len(sys.argv) != 5:
-    print("Usage: python script.py <minSpeed> <maxSpeed> <targetObjectWidth> <veritcalThreshold> <horizontalThreshold>")
+    print("Usage: python script.py <minSpeed> <maxSpeed> <targetObjectWidth>")
     sys.exit(1)
 
 # Get the values of minSpeed and maxSpeed from command-line arguments
 try:
     minSpeed = float(sys.argv[1])
     maxSpeed = float(sys.argv[2])
-    # Tw = float(sys.argv[3])
-    Vthold = float(sys.argv[3])
+    Tw = float(sys.argv[3])
     Hthold = float(sys.argv[4])
 except ValueError:
-    print("Enter: <minSpeed> <maxSpeed> <targetObjectWidth> <veritcalThreshold> <horizontalThreshold")
+    print("Error: minSpeed and maxSpeed must be numeric values.")
     sys.exit(1)
 
 in1 = 24
@@ -86,16 +85,18 @@ class Object_Tracking_Robot:
         count=1
         if(type(obj)==list):
             for i in obj:
-                print("\t " + ("BLOCK_" if i.type=="BLOCK" else "ARROW_") + str(count) + " : " + json.dumps(i.__dict__))
-                self.Ox = json.loads(json.dumps(i.__dict__))["x"]
-                self.Oy = json.loads(json.dumps(i.__dict__))["y"]
-                self.Ow = json.loads(json.dumps(i.__dict__))["width"]
-                count+=1
+                if(json.loads(json.dumps(i.__dict__))["ID"] == 1):
+                    print("\t " + ("BLOCK_" if i.type=="BLOCK" else "ARROW_") + str(count) + " : " + json.dumps(i.__dict__))
+                    self.Ox = json.loads(json.dumps(i.__dict__))["x"]
+                    self.Oy = json.loads(json.dumps(i.__dict__))["y"]
+                    self.Ow = json.loads(json.dumps(i.__dict__))["width"]
+                    count+=1
         else:
-            print("\t " + ("BLOCK_" if obj.type=="BLOCK" else "ARROW_") + str(count) + " : " + json.dumps(obj.__dict__))
-            self.Ox = json.loads(json.dumps(obj.__dict__))["x"]
-            self.Oy = json.loads(json.dumps(obj.__dict__))["y"]
-            self.Ow = json.loads(json.dumps(obj.__dict__))["width"]
+            if (json.loads(json.dumps(i.__dict__))["ID"] == 1):
+                print("\t " + ("BLOCK_" if obj.type=="BLOCK" else "ARROW_") + str(count) + " : " + json.dumps(obj.__dict__))
+                self.Ox = json.loads(json.dumps(obj.__dict__))["x"]
+                self.Oy = json.loads(json.dumps(obj.__dict__))["y"]
+                self.Ow = json.loads(json.dumps(obj.__dict__))["width"]
 
         return True
             
@@ -120,11 +121,11 @@ class Object_Tracking_Robot:
         if vy != 0:
             vyNew = vyNew * (abs(vy)/vy)
 
-        # if (Tw - self.Ow) > 0:
-        #     if (Tw - self.Ow) > 30:
-        #         vyNew = vyNew + ( (Tw - self.Ow)/2 )
-        #     else:
-        #         vyNew = vyNew + (Tw - self.Ow)
+        if (Tw - self.Ow) > 0:
+            if (Tw - self.Ow) > 30:
+                vyNew = vyNew + ( (Tw - self.Ow)/2 )
+            else:
+                vyNew = vyNew + (Tw - self.Ow)
 
         self.rightMotorSpeed = vyNew - vxNew
         self.leftMotorSpeed = vyNew + vxNew
@@ -140,7 +141,7 @@ class Object_Tracking_Robot:
             else:
                 self.rightMotorSpeed = abs(self.rightMotorSpeed)
 
-            if (not self.is_running) or ((self.cy - self.Oy)< -Vthold):
+            if self.Ow >= Tw or (not self.is_running):
                 self.rightMotorSpeed = 0
                 self.leftMotorSpeed = 0
             
@@ -156,7 +157,7 @@ class Object_Tracking_Robot:
             else:
                 self.rightMotorSpeed = abs(self.rightMotorSpeed)
 
-            if (not self.is_running) or ((self.cy - self.Oy)< -Vthold):
+            if self.Ow >= Tw or (not self.is_running):
                 self.rightMotorSpeed = 0
                 self.leftMotorSpeed = 0
 
@@ -173,7 +174,7 @@ class Object_Tracking_Robot:
             else:
                 self.leftMotorSpeed = abs(self.leftMotorSpeed)
 
-            if (not self.is_running) or ((self.cy - self.Oy)< -Vthold):
+            if self.Ow >= Tw or (not self.is_running):
                 self.rightMotorSpeed = 0
                 self.leftMotorSpeed = 0
 
@@ -189,7 +190,7 @@ class Object_Tracking_Robot:
             else:
                 self.leftMotorSpeed = abs(self.leftMotorSpeed)
 
-            if (not self.is_running) or ((self.cy - self.Oy)< -Vthold):
+            if self.Ow >= Tw or (not self.is_running):
                 self.rightMotorSpeed = 0
                 self.leftMotorSpeed = 0
 
